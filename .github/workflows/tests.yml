@@ -33,7 +33,7 @@ jobs:
 
       - run: brew test-bot --tap conversence/ConversenceTaps --only-tap-syntax
 
-      - run: brew test-bot --tap conversence/ConversenceTaps --only-formulae
+      - run: brew test-bot --tap conversence/ConversenceTaps --root-url=https://ghcr.io/v2/conversence/ConversenceTaps --only-formulae
         if: github.event_name == 'pull_request' || github.event_name == 'push'
 
       - name: Upload bottles as artifact
