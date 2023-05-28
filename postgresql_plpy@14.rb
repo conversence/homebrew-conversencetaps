@@ -4,8 +4,6 @@ class PostgresqlPlpyAT14 < Formula
   url "https://ftp.postgresql.org/pub/source/v14.7/postgresql-14.7.tar.bz2"
   sha256 "cef60f0098fa8101c1546f4254e45b722af5431337945b37af207007630db331"
   license "PostgreSQL"
-  pgname = "postgresql@14"
-  pyname = "python@3.10"
 
   livecheck do
     url "https://ftp.postgresql.org/pub/source/"
@@ -15,20 +13,20 @@ class PostgresqlPlpyAT14 < Formula
   # https://www.postgresql.org/support/versioning/
   deprecate! date: "2026-11-12", because: :unsupported
 
-  depends_on "#pgname"
-  depends_on "#pyname"
+  depends_on "postgresql@14"
+  depends_on "python@3.10"
 
   def install
     ENV.prepend "LDFLAGS", "-L#{Formula["openssl@1.1"].opt_lib} -L#{Formula["readline"].opt_lib}"
     ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@1.1"].opt_include} -I#{Formula["readline"].opt_include}"
-    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/#{pyname}/bin/python3.10"
+    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.10/bin/python3.10"
 
     args = %W[
       --disable-debug
       --prefix=#{prefix}
-      --datadir=#{HOMEBREW_PREFIX}/share/#{pgname}
-      --libdir=#{HOMEBREW_PREFIX}/lib/#{pgname}
-      --includedir=#{HOMEBREW_PREFIX}/include/#{pgname}
+      --datadir=#{HOMEBREW_PREFIX}/share/postgresql@14
+      --libdir=#{HOMEBREW_PREFIX}/lib/postgresql@14
+      --includedir=#{HOMEBREW_PREFIX}/include/postgresql@14
       --enable-thread-safety
       --with-gssapi
       --with-icu
@@ -57,47 +55,47 @@ class PostgresqlPlpyAT14 < Formula
     mkdir "stage"
     chdir "src/pl/plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/#{pgname}",
-                                      "libdir=#{lib}/#{pgname}",
-                                      "pkglibdir=#{lib}/#{pgname}",
-                                      "includedir=#{include}/#{pgname}",
-                                      "pkgincludedir=#{include}/#{pgname}",
-                                      "includedir_server=#{include}/#{pgname}/server",
-                                      "includedir_internal=#{include}/#{pgname}/internal"
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@14",
+                                      "libdir=#{lib}/postgresql@14",
+                                      "pkglibdir=#{lib}/postgresql@14",
+                                      "includedir=#{include}/postgresql@14",
+                                      "pkgincludedir=#{include}/postgresql@14",
+                                      "includedir_server=#{include}/postgresql@14/server",
+                                      "includedir_internal=#{include}/postgresql@14/internal"
     end
     chdir "contrib/hstore_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/#{pgname}",
-                                      "libdir=#{lib}/#{pgname}",
-                                      "pkglibdir=#{lib}/#{pgname}",
-                                      "includedir=#{include}/#{pgname}",
-                                      "pkgincludedir=#{include}/#{pgname}",
-                                      "includedir_server=#{include}/#{pgname}/server",
-                                      "includedir_internal=#{include}/#{pgname}/internal"
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@14",
+                                      "libdir=#{lib}/postgresql@14",
+                                      "pkglibdir=#{lib}/postgresql@14",
+                                      "includedir=#{include}/postgresql@14",
+                                      "pkgincludedir=#{include}/postgresql@14",
+                                      "includedir_server=#{include}/postgresql@14/server",
+                                      "includedir_internal=#{include}/postgresql@14/internal"
     end
     chdir "contrib/ltree_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/#{pgname}",
-                                      "libdir=#{lib}/#{pgname}",
-                                      "pkglibdir=#{lib}/#{pgname}",
-                                      "includedir=#{include}/#{pgname}",
-                                      "pkgincludedir=#{include}/#{pgname}",
-                                      "includedir_server=#{include}/#{pgname}/server",
-                                      "includedir_internal=#{include}/#{pgname}/internal"
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@14",
+                                      "libdir=#{lib}/postgresql@14",
+                                      "pkglibdir=#{lib}/postgresql@14",
+                                      "includedir=#{include}/postgresql@14",
+                                      "pkgincludedir=#{include}/postgresql@14",
+                                      "includedir_server=#{include}/postgresql@14/server",
+                                      "includedir_internal=#{include}/postgresql@14/internal"
     end
     chdir "contrib/jsonb_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/#{pgname}",
-                                      "libdir=#{lib}/#{pgname}",
-                                      "pkglibdir=#{lib}/#{pgname}",
-                                      "includedir=#{include}/#{pgname}",
-                                      "pkgincludedir=#{include}/#{pgname}",
-                                      "includedir_server=#{include}/#{pgname}/server",
-                                      "includedir_internal=#{include}/#{pgname}/internal"
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@14",
+                                      "libdir=#{lib}/postgresql@14",
+                                      "pkglibdir=#{lib}/postgresql@14",
+                                      "includedir=#{include}/postgresql@14",
+                                      "pkgincludedir=#{include}/postgresql@14",
+                                      "includedir_server=#{include}/postgresql@14/server",
+                                      "includedir_internal=#{include}/postgresql@14/internal"
     end
-    (lib/pgname.to_s).install Dir["stage/**/lib/#{pgname}/*"]
-    (lib/"#{pgname}/pgxs/src/pl/plpython").install Dir["stage/**/lib/#{pgname}/pgxs/src/pl/plpython/*"]
-    (include/"#{pgname}/server").install Dir["stage/**/include/#{pgname}/server/*"]
-    (share/"#{pgname}/extension").install Dir["stage/**/share/#{pgname}/extension/*"]
+    (lib/pgname.to_s).install Dir["stage/**/lib/postgresql@14/*"]
+    (lib/"postgresql@14/pgxs/src/pl/plpython").install Dir["stage/**/lib/postgresql@14/pgxs/src/pl/plpython/*"]
+    (include/"postgresql@14/server").install Dir["stage/**/include/postgresql@14/server/*"]
+    (share/"postgresql@14/extension").install Dir["stage/**/share/postgresql@14/extension/*"]
   end
 end
