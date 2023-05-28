@@ -93,7 +93,7 @@ class PostgresqlPlpyAT14 < Formula
                                       "includedir_server=#{include}/postgresql@14/server",
                                       "includedir_internal=#{include}/postgresql@14/internal"
     end
-    (lib/pgname.to_s).install Dir["stage/**/lib/postgresql@14/*"]
+    (lib/"postgresql@14").install Dir["stage/**/lib/postgresql@14/*"]
     (lib/"postgresql@14/pgxs/src/pl/plpython").install Dir["stage/**/lib/postgresql@14/pgxs/src/pl/plpython/*"]
     (include/"postgresql@14/server").install Dir["stage/**/include/postgresql@14/server/*"]
     (share/"postgresql@14/extension").install Dir["stage/**/share/postgresql@14/extension/*"]
