@@ -32,7 +32,7 @@ class PostgresqlPlpyAT16 < Formula
 
     args = std_configure_args + %W[
       --prefix=#{prefix}
-      --datadir=#{HOMEBREW_PREFIX}/share/postgresql@15
+      --datadir=#{HOMEBREW_PREFIX}/share/postgresql@16
       --libdir=#{opt_lib}
       --includedir=#{opt_include}
       --sysconfdir=#{etc}
@@ -68,7 +68,7 @@ class PostgresqlPlpyAT16 < Formula
     mkdir "stage"
     chdir "src/pl/plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@15",
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
                                       "libdir=#{lib}",
                                       "pkglibdir=#{lib}/postgresql",
                                       "includedir=#{include}",
@@ -78,7 +78,7 @@ class PostgresqlPlpyAT16 < Formula
     end
     chdir "contrib/hstore_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@15",
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
                                       "libdir=#{lib}",
                                       "pkglibdir=#{lib}/postgresql",
                                       "includedir=#{include}",
@@ -88,7 +88,7 @@ class PostgresqlPlpyAT16 < Formula
     end
     chdir "contrib/ltree_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@15",
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
                                       "libdir=#{lib}",
                                       "pkglibdir=#{lib}/postgresql",
                                       "includedir=#{include}",
@@ -98,7 +98,7 @@ class PostgresqlPlpyAT16 < Formula
     end
     chdir "contrib/jsonb_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
-                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@15",
+                                      "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
                                       "libdir=#{lib}",
                                       "pkglibdir=#{lib}/postgresql",
                                       "includedir=#{include}",
@@ -108,6 +108,6 @@ class PostgresqlPlpyAT16 < Formula
     end
     (lib/"postgresql").install Dir["stage/**/lib/postgresql/*"]
     (include/"postgresql/server").install Dir["stage/**/include/postgresql/server/*"]
-    (share/"postgresql@15/extension").install Dir["stage/**/share/postgresql@15/extension/*"]
+    (share/"postgresql@16/extension").install Dir["stage/**/share/postgresql@16/extension/*"]
   end
 end
