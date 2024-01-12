@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT16 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v16.0/postgresql-16.0.tar.bz2"
-  sha256 "df9e823eb22330444e1d48e52cc65135a652a6fdb3ce325e3f08549339f51b99"
+  url "https://ftp.postgresql.org/pub/source/v16.1/postgresql-16.1.tar.bz2"
+  sha256 "ce3c4d85d19b0121fe0d3f8ef1fa601f71989e86f8a66f7dc3ad546dd5564fec"
   license "PostgreSQL"
   revision 1
 
@@ -17,14 +17,14 @@ class PostgresqlPlpyAT16 < Formula
   deprecate! date: "2028-11-09", because: :unsupported
 
   depends_on "postgresql@16"
-  depends_on "python@3.10"
+  depends_on "python@3.11"
 
   def install
     print "#{buildpath}/stage"
     ENV.delete "PKG_CONFIG_LIBDIR"
     ENV.prepend "LDFLAGS", "-L#{Formula["openssl@3"].opt_lib} -L#{Formula["readline"].opt_lib}"
     ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@3"].opt_include} -I#{Formula["readline"].opt_include}"
-    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.10/bin/python3.10"
+    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.11/bin/python3.11"
 
     # Fix 'libintl.h' file not found for extensions
     ENV.prepend "LDFLAGS", "-L#{Formula["gettext"].opt_lib}"
@@ -69,42 +69,42 @@ class PostgresqlPlpyAT16 < Formula
     chdir "src/pl/plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
                                       "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
-                                      "libdir=#{lib}",
-                                      "pkglibdir=#{lib}/postgresql",
-                                      "includedir=#{include}",
-                                      "pkgincludedir=#{include}/postgresql",
-                                      "includedir_server=#{include}/postgresql/server",
-                                      "includedir_internal=#{include}/postgresql/internal"
+                                      "libdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib",
+                                      "pkglibdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib/postgresql",
+                                      "includedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include",
+                                      "pkgincludedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql",
+                                      "includedir_server=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/server",
+                                      "includedir_internal=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/internal"
     end
     chdir "contrib/hstore_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
                                       "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
-                                      "libdir=#{lib}",
-                                      "pkglibdir=#{lib}/postgresql",
-                                      "includedir=#{include}",
-                                      "pkgincludedir=#{include}/postgresql",
-                                      "includedir_server=#{include}/postgresql/server",
-                                      "includedir_internal=#{include}/postgresql/internal"
+                                      "libdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib",
+                                      "pkglibdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib/postgresql",
+                                      "includedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include",
+                                      "pkgincludedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql",
+                                      "includedir_server=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/server",
+                                      "includedir_internal=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/internal"
     end
     chdir "contrib/ltree_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
                                       "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
-                                      "libdir=#{lib}",
-                                      "pkglibdir=#{lib}/postgresql",
-                                      "includedir=#{include}",
-                                      "pkgincludedir=#{include}/postgresql",
-                                      "includedir_server=#{include}/postgresql/server",
-                                      "includedir_internal=#{include}/postgresql/internal"
+                                      "libdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib",
+                                      "pkglibdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib/postgresql",
+                                      "includedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include",
+                                      "pkgincludedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql",
+                                      "includedir_server=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/server",
+                                      "includedir_internal=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/internal"
     end
     chdir "contrib/jsonb_plpython" do
       system "make", "install", "DESTDIR=#{buildpath}/stage",
                                       "datadir=#{HOMEBREW_PREFIX}/share/postgresql@16",
-                                      "libdir=#{lib}",
-                                      "pkglibdir=#{lib}/postgresql",
-                                      "includedir=#{include}",
-                                      "pkgincludedir=#{include}/postgresql",
-                                      "includedir_server=#{include}/postgresql/server",
-                                      "includedir_internal=#{include}/postgresql/internal"
+                                      "libdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib",
+                                      "pkglibdir=#{HOMEBREW_PREFIX}/opt/postgreql@16/lib/postgresql",
+                                      "includedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include",
+                                      "pkgincludedir=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql",
+                                      "includedir_server=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/server",
+                                      "includedir_internal=#{HOMEBREW_PREFIX}/opt/postgreql@16/include/postgresql/internal"
     end
     (lib/"postgresql").install Dir["stage/**/lib/postgresql/*"]
     (include/"postgresql/server").install Dir["stage/**/include/postgresql/server/*"]
