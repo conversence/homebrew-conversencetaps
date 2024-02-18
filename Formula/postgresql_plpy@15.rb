@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT15 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v15.5/postgresql-15.5.tar.bz2"
-  sha256 "8f53aa95d78eb8e82536ea46b68187793b42bba3b4f65aa342f540b23c9b10a6"
+  url "https://ftp.postgresql.org/pub/source/v15.6/postgresql-15.6.tar.bz2"
+  sha256 "8455146ed9c69c93a57de954aead0302cafad035c2b242175d6aa1e17ebcb2fb"
   license "PostgreSQL"
   revision 3
 

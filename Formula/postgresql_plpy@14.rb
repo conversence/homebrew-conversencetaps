@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT14 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v14.9/postgresql-14.9.tar.bz2"
-  sha256 "b1fe3ba9b1a7f3a9637dd1656dfdad2889016073fd4d35f13b50143cbbb6a8ef"
+  url "https://ftp.postgresql.org/pub/source/v14.11/postgresql-14.11.tar.bz2"
+  sha256 "a670bd7dce22dcad4297b261136b3b1d4a09a6f541719562aa14ca63bf2968a8"
   license "PostgreSQL"
 
   livecheck do
