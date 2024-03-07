@@ -4,6 +4,7 @@ class PostgresqlPlpyAT14 < Formula
   url "https://ftp.postgresql.org/pub/source/v14.11/postgresql-14.11.tar.bz2"
   sha256 "a670bd7dce22dcad4297b261136b3b1d4a09a6f541719562aa14ca63bf2968a8"
   license "PostgreSQL"
+  revision 1
 
   livecheck do
     url "https://ftp.postgresql.org/pub/source/"
@@ -14,12 +15,12 @@ class PostgresqlPlpyAT14 < Formula
   deprecate! date: "2026-11-12", because: :unsupported
 
   depends_on "postgresql@14"
-  depends_on "python@3.10"
+  depends_on "python@3.11"
 
   def install
     ENV.prepend "LDFLAGS", "-L#{Formula["openssl@3"].opt_lib} -L#{Formula["readline"].opt_lib}"
     ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@3"].opt_include} -I#{Formula["readline"].opt_include}"
-    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.10/bin/python3.10"
+    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.11/bin/python3.11"
 
     args = %W[
       --disable-debug
