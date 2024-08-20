@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT16 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v16.3/postgresql-16.3.tar.bz2"
-  sha256 "331963d5d3dc4caf4216a049fa40b66d6bcb8c730615859411b9518764e60585"
+  url "https://ftp.postgresql.org/pub/source/v16.4/postgresql-16.4.tar.bz2"
+  sha256 "971766d645aa73e93b9ef4e3be44201b4f45b5477095b049125403f9f3386d6f"
   license "PostgreSQL"
 
   livecheck do
@@ -35,6 +35,7 @@ class PostgresqlPlpyAT16 < Formula
       --includedir=#{include}
       --sysconfdir=#{etc}
       --docdir=#{doc}
+      --localedir=#{HOMEBREW_PREFIX}/share/locale
       --enable-nls
       --enable-thread-safety
       --with-gssapi
