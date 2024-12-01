@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT17 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v17.0/postgresql-17.0.tar.bz2"
-  sha256 "7e276131c0fdd6b62588dbad9b3bb24b8c3498d5009328dba59af16e819109de"
+  url "https://ftp.postgresql.org/pub/source/v17.2/postgresql-17.2.tar.bz2"
+  sha256 "82ef27c0af3751695d7f64e2d963583005fbb6a0c3df63d0e4b42211d7021164"
   license "PostgreSQL"
 
   livecheck do
@@ -19,7 +19,6 @@ class PostgresqlPlpyAT17 < Formula
   depends_on "python@3.12"
 
   def install
-    print "#{buildpath}/stage"
     # Modify Makefile to link macOS binaries using Cellar path. Otherwise, binaries are linked
     # using #{HOMEBREW_PREFIX}/lib path set during ./configure, which will cause audit failures
     # for broken linkage as the paths are not created until post-install step.
@@ -34,13 +33,12 @@ class PostgresqlPlpyAT17 < Formula
 
     # Fix 'libintl.h' file not found for extensions
     if OS.mac?
-      ENV.prepend "LDFLAGS", "-L#{Formula["gettext"].opt_lib}"
-      ENV.prepend "CPPFLAGS", "-I#{Formula["gettext"].opt_include}"
+      ENV.prepend "LDFLAGS", "-L#{Formula["gettext"].opt_lib} -L#{Formula["krb5"].opt_lib}"
+      ENV.prepend "CPPFLAGS", "-I#{Formula["gettext"].opt_include} -I#{Formula["krb5"].opt_include}"
     end
 
-    args = std_configure_args + %W[
+    args = %W[
       --datadir=#{HOMEBREW_PREFIX}/share/postgresql@17
-      --libdir=#{HOMEBREW_PREFIX}/lib/postgresql@17
       --includedir=#{HOMEBREW_PREFIX}/include/postgresql@17
       --sysconfdir=#{etc}
       --docdir=#{doc}
@@ -57,16 +55,20 @@ class PostgresqlPlpyAT17 < Formula
       --with-pam
       --with-python
       --with-uuid=e2fs
-      --with-extra-version=\ (#{tap.user})
     ]
+    args << "--with-extra-version= (#{tap.user})" if tap
     args += %w[--with-bonjour --with-tcl] if OS.mac?
 
     # PostgreSQL by default uses xcodebuild internally to determine this,
     # which does not work on CLT-only installs.
     args << "PG_SYSROOT=#{MacOS.sdk_path}" if OS.mac? && MacOS.sdk_root_needed?
 
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args(libdir: HOMEBREW_PREFIX/"lib/postgresql@17")
     system "make"
+
+    # We use an unversioned `postgresql` subdirectory rather than `#{name}` so that the
+    # post-installed symlinks can use non-conflicting `#{name}` and be retained on `brew unlink`.
+    # Removing symlinks may break PostgreSQL as its binaries expect paths from ./configure step.
     chdir "src/pl/plpython" do
       system "make", "install", "datadir=#{share}/postgresql",
                                     "libdir=#{lib}/postgresql",
@@ -105,7 +107,6 @@ class PostgresqlPlpyAT17 < Formula
         if src.symlink? || src.file?
           Find.prune if src.basename.to_s == ".DS_Store"
           dst.parent.install_symlink src
-          print(src, " -> ",dst,"\n")
         elsif src.directory?
           dst.mkpath
         end
