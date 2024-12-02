@@ -1,13 +1,18 @@
 class PostgresqlPlpyAT16 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v16.4/postgresql-16.4.tar.bz2"
-  sha256 "971766d645aa73e93b9ef4e3be44201b4f45b5477095b049125403f9f3386d6f"
+  url "https://ftp.postgresql.org/pub/source/v16.6/postgresql-16.6.tar.bz2"
+  sha256 "23369cdaccd45270ac5dcc30fa9da205d5be33fa505e1f17a0418d2caeca477b"
   license "PostgreSQL"
 
   livecheck do
     url "https://ftp.postgresql.org/pub/source/"
     regex(%r{href=["']?v?(16(?:\.\d+)+)/?["' >]}i)
+  end
+
+  bottle do
+    root_url "https://www.conversence.com/bottles"
+    sha256 cellar: :any, arm64_sequoia: "ab575887af0f1f44ca8b255f968a556c12beb31c03de25c6f69a9efa068817dc"
   end
 
   keg_only :versioned_formula
@@ -16,18 +21,20 @@ class PostgresqlPlpyAT16 < Formula
   deprecate! date: "2028-11-09", because: :unsupported
 
   depends_on "postgresql@16"
-  depends_on "python@3.11"
+  depends_on "python@3.12"
 
   def install
-    print "#{buildpath}/stage"
     ENV.delete "PKG_CONFIG_LIBDIR"
     ENV.prepend "LDFLAGS", "-L#{Formula["openssl@3"].opt_lib} -L#{Formula["readline"].opt_lib}"
     ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@3"].opt_include} -I#{Formula["readline"].opt_include}"
-    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.11/bin/python3.11"
+    ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.12/bin/python3.12"
 
     # Fix 'libintl.h' file not found for extensions
-    ENV.prepend "LDFLAGS", "-L#{Formula["gettext"].opt_lib}"
-    ENV.prepend "CPPFLAGS", "-I#{Formula["gettext"].opt_include}"
+    # Update config to fix `error: could not find function 'gss_store_cred_into' required for GSSAPI`
+    if OS.mac?
+      ENV.prepend "LDFLAGS", "-L#{Formula["gettext"].opt_lib} -L#{Formula["krb5"].opt_lib}"
+      ENV.prepend "CPPFLAGS", "-I#{Formula["gettext"].opt_include} -I#{Formula["krb5"].opt_include}"
+    end
 
     args = std_configure_args + %W[
       --datadir=#{HOMEBREW_PREFIX}/share/postgresql@16
@@ -49,14 +56,9 @@ class PostgresqlPlpyAT16 < Formula
       --with-pam
       --with-python
       --with-uuid=e2fs
-      --with-extra-version=\ (#{tap.user})
     ]
-    if OS.mac?
-      args += %w[
-        --with-bonjour
-        --with-tcl
-      ]
-    end
+    args << "--with-extra-version= (#{tap.user})" if tap
+    args += %w[--with-bonjour --with-tcl] if OS.mac?
 
     # PostgreSQL by default uses xcodebuild internally to determine this,
     # which does not work on CLT-only installs.

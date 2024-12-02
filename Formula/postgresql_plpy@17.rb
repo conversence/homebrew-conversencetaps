@@ -10,6 +10,11 @@ class PostgresqlPlpyAT17 < Formula
     regex(%r{href=["']?v?(17(?:\.\d+)+)/?["' >]}i)
   end
 
+  bottle do
+    root_url "https://www.conversence.com/bottles"
+    sha256 cellar: :any, arm64_sequoia: "c628a4720dffa93ffc12c0c9250fcd21bcf39a835a6d345cbc07beb36310ec45"
+  end
+
   keg_only :versioned_formula
 
   # https://www.postgresql.org/support/versioning/
