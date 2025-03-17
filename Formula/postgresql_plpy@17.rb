@@ -20,6 +20,7 @@ class PostgresqlPlpyAT17 < Formula
   # https://www.postgresql.org/support/versioning/
   deprecate! date: "2029-11-08", because: :unsupported
 
+  depends_on "pkgconf" => :build
   depends_on "postgresql@17"
   depends_on "python@3.12"
 
