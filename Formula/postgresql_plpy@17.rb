@@ -97,7 +97,6 @@ class PostgresqlPlpyAT17 < Formula
   end
 
   def post_install
-
     # Manually link files from keg to non-conflicting versioned directories in HOMEBREW_PREFIX.
     %w[include lib share locale].each do |dir|
       dst_dir = HOMEBREW_PREFIX/dir/"postgresql@17"
@@ -122,6 +121,4 @@ class PostgresqlPlpyAT17 < Formula
   def postgresql_datadir
     var/name
   end
-
-
 end
