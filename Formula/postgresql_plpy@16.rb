@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT16 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v16.9/postgresql-16.9.tar.bz2"
-  sha256 "07c00fb824df0a0c295f249f44691b86e3266753b380c96f633c3311e10bd005"
+  url "https://ftp.postgresql.org/pub/source/v16.10/postgresql-16.10.tar.bz2"
+  sha256 "de8485f4ce9c32e3ddfeef0b7c261eed1cecb54c9bcd170e437ff454cb292b42"
   license "PostgreSQL"
 
   livecheck do
@@ -12,7 +12,7 @@ class PostgresqlPlpyAT16 < Formula
 
   bottle do
     root_url "https://www.conversence.com/bottles"
-    sha256 cellar: :any, arm64_sequoia: "3f4f6d552422c5d5619b3e57cf9d5949365e8361a6c9b7377118f595d97dc576"
+    sha256 cellar: :any, arm64_sequoia: "8b3cfd2f8cd83d80781a2b425d7fab7b91225bcd1670ac705feb12408488766b"
   end
 
   keg_only :versioned_formula
