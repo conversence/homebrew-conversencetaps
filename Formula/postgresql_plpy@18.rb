@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT18 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v18.3/postgresql-18.3.tar.bz2"
-  sha256 "d95663fbbf3a80f81a9d98d895266bdcb74ba274bcc04ef6d76630a72dee016f"
+  url "https://ftp.postgresql.org/pub/source/v18.4/postgresql-18.4.tar.bz2"
+  sha256 "81a81ec695fb0c7901407defaa1d2f7973617154cf27ba74e3a7ab8e64436094"
   license "PostgreSQL"
 
   livecheck do
@@ -12,7 +12,7 @@ class PostgresqlPlpyAT18 < Formula
 
   bottle do
     root_url "https://www.conversence.com/bottles"
-    sha256 cellar: :any, arm64_tahoe: "83ed090a3c3978f8f268e3f0e157987d3d121dddf7b229ed01a4539dc0d9957e"
+    sha256 cellar: :any, arm64_tahoe: "433a6429fded6cf5745e75f2e28bdf91da5c57806f7b824cd2c454a9640fec82"
   end
 
   keg_only :versioned_formula
