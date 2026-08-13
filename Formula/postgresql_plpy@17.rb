@@ -1,8 +1,8 @@
 class PostgresqlPlpyAT17 < Formula
   desc "Python3 as procedural language for Postgres"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v17.10/postgresql-17.10.tar.bz2"
-  sha256 "078a03516dcdbdb705fecaf415ea3d13a956c589e46f09fed68a06fb00598c90"
+  url "https://ftp.postgresql.org/pub/source/v17.11/postgresql-17.11.tar.bz2"
+  sha256 "dd27f2b3c59e73ed14aa3324901242bf69a032a6347805f274e6260322d42979"
   license "PostgreSQL"
 
   livecheck do
@@ -11,13 +11,15 @@ class PostgresqlPlpyAT17 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_tahoe: "e464e278fd5d67fc8403d9e32b264d4125515a779b5b6b3820c4eee18faa55c4"
+    root_url "https://www.conversence.com/bottles"
+    sha256 cellar: :any, arm64_tahoe: "37065cc7fdfd79c3c1c9d1a3c79a0c313c1a33503ed2a626bbfc5487aacd288f"
   end
 
   keg_only :versioned_formula
 
   # https://www.postgresql.org/support/versioning/
   deprecate! date: "2029-11-08", because: :unsupported
+  disable! date: "2030-11-08", because: :unsupported
 
   depends_on "pkgconf" => :build
   depends_on "postgresql@17"
@@ -31,15 +33,17 @@ class PostgresqlPlpyAT17 < Formula
     inreplace "src/Makefile.shlib", "-install_name '$(libdir)/", "-install_name '#{lib}/postgresql/"
 
     ENV["XML_CATALOG_FILES"] = etc/"xml/catalog"
+    ENV.runtime_cpu_detection
     ENV.delete "PKG_CONFIG_LIBDIR"
-    ENV.prepend "LDFLAGS", "-L#{Formula["openssl@3"].opt_lib} -L#{Formula["readline"].opt_lib}"
-    ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@3"].opt_include} -I#{Formula["readline"].opt_include}"
+    ENV.prepend "LDFLAGS", "-L#{formula_opt_lib("openssl@3")} -L#{formula_opt_lib("readline")}"
+    ENV.prepend "CPPFLAGS", "-I#{formula_opt_include("openssl@3")} -I#{formula_opt_include("readline")}"
     ENV.prepend "PYTHON", "#{HOMEBREW_PREFIX}/opt/python@3.12/bin/python3.12"
 
     # Fix 'libintl.h' file not found for extensions
+    # Update config to fix `error: could not find function 'gss_store_cred_into' required for GSSAPI`
     if OS.mac?
-      ENV.prepend "LDFLAGS", "-L#{Formula["gettext"].opt_lib} -L#{Formula["krb5"].opt_lib}"
-      ENV.prepend "CPPFLAGS", "-I#{Formula["gettext"].opt_include} -I#{Formula["krb5"].opt_include}"
+      ENV.prepend "LDFLAGS", "-L#{formula_opt_lib("gettext")} -L#{formula_opt_lib("krb5")}"
+      ENV.prepend "CPPFLAGS", "-I#{formula_opt_include("gettext")} -I#{formula_opt_include("krb5")}"
     end
 
     args = %W[
@@ -66,7 +70,7 @@ class PostgresqlPlpyAT17 < Formula
 
     # PostgreSQL by default uses xcodebuild internally to determine this,
     # which does not work on CLT-only installs.
-    args << "PG_SYSROOT=#{MacOS.sdk_path}" if OS.mac? && MacOS.sdk_root_needed?
+    args << "PG_SYSROOT=#{MacOS.sdk_path}" if OS.mac?
 
     system "./configure", *args, *std_configure_args(libdir: HOMEBREW_PREFIX/"lib/postgresql@17")
     system "make"
