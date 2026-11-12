@@ -1,1 +1,0 @@
-/opt/homebrew/Library/Taps/homebrew/homebrew-core/Formula/p/postgresql@17.rb
